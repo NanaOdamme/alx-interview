@@ -2,6 +2,8 @@
 """
 0. Pascal's Triangle
 """
+
+
 def pascal_triangle(n):
     """
     Print the triangle
