@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-test with 0-main
+0. Pascal's Triangle
 """
 def pascal_triangle(n):
     """
@@ -16,7 +16,4 @@ def pascal_triangle(n):
             row.append(triangle[i-1][j-1] + triangle[i-1][j])
         row.append(1)
         triangle.append(row)
-
     return triangle
-
-if __name__ == "__main__":
