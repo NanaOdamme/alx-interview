@@ -3,6 +3,9 @@
 test with 0-main
 """
 def pascal_triangle(n):
+    """
+    Print the triangle
+    """
     if n <= 0:
         return []
 
@@ -15,3 +18,5 @@ def pascal_triangle(n):
         triangle.append(row)
 
     return triangle
+
+if __name__ == "__main__":
