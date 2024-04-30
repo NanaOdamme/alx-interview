@@ -4,20 +4,23 @@
 
 def canUnlockAll(boxes):
     """
-    function to unlock all boxes
+    Function to determine if all boxes can be opened.
 
     Args:
-        boxes (list): list that contains all boxes with keys
+        boxes (list): List that contains all boxes with keys.
+        
+    Returns:
+        bool: True if all boxes can be opened, False otherwise.
     """
-    
     
     def dfs(box_index, visited):
         """
-    using a depth-first search (DFS) to traverse the boxes
+        Using depth-first search (DFS) to traverse the boxes.
 
-    Args:
-        box_index (dict): opened bok with key
-    """
+        Args:
+            box_index (int): Index of the box to explore.
+            visited (set): Set containing indices of visited boxes.
+        """
         visited.add(box_index)
         for key in boxes[box_index]:
             if key not in visited and key < len(boxes):
