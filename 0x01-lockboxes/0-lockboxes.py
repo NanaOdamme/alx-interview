@@ -2,27 +2,64 @@
 """Solves the lock boxes puzzle """
 
 
-def canUnlockAll(boxes):
-    """
-    Function to determine if all boxes can be opened.
+def look_next_opened_box(opened_boxes):
+    """Looks for the next opened box
     Args:
-        boxes (list): List that contains all boxes with keys.
+        opened_boxes (dict): Dictionary which contains boxes already opened
     Returns:
-        bool: True if all boxes can be opened, False otherwise.
+        list: List with the keys contained in the opened box
     """
-    if not boxes:
-        return False
+    for index, box in opened_boxes.items():
+        if box.get('status') == 'opened':
+            box['status'] = 'opened/checked'
+            return box.get('keys')
+    return None
 
-    visited = set()
-    to_explore = [0]
-    
-    while to_explore:
-        current_box = to_explore.pop()
-        visited.add(current_box)
 
-        for key in boxes[current_box]:
-            if key not in visited and key < len(boxes):
-                if key not in to_explore:
-                    to_explore.append(key)
-    
-    return len(visited) == len(boxes)
+def canUnlockAll(boxes):
+    """Check if all boxes can be opened
+    Args:
+        boxes (list): List which contain all the boxes with the keys
+    Returns:
+        bool: True if all boxes can be opened, otherwise, False
+    """
+    if len(boxes) <= 1 or boxes == [[]]:
+        return True
+
+    aux = {}
+    while True:
+        if len(aux) == 0:
+            aux[0] = {
+                'status': 'opened',
+                'keys': boxes[0],
+            }
+        keys = look_next_opened_box(aux)
+        if keys:
+            for key in keys:
+                try:
+                    if aux.get(key) and aux.get(key).get('status') \
+                       == 'opened/checked':
+                        continue
+                    aux[key] = {
+                        'status': 'opened',
+                        'keys': boxes[key]
+                    }
+                except (KeyError, IndexError):
+                    continue
+        elif 'opened' in [box.get('status') for box in aux.values()]:
+            continue
+        elif len(aux) == len(boxes):
+            break
+        else:
+            return False
+
+    return len(aux) == len(boxes)
+
+
+def main():
+    """Entry point"""
+    canUnlockAll([[]])
+
+
+if __name__ == '__main__':
+    main()
