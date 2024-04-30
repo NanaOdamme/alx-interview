@@ -12,20 +12,24 @@ def canUnlockAll(boxes):
     Returns:
         bool: True if all boxes can be opened, False otherwise.
     """
+    if not boxes:
+        return False  # Empty boxes list, cannot unlock anything
     
-    def dfs(box_index, visited):
-        """
-        Using depth-first search (DFS) to traverse the boxes.
-
-        Args:
-            box_index (int): Index of the box to explore.
-            visited (set): Set containing indices of visited boxes.
-        """
-        visited.add(box_index)
-        for key in boxes[box_index]:
-            if key not in visited and key < len(boxes):
-                dfs(key, visited)
-
+    # Initialize a set to keep track of visited boxes
     visited = set()
-    dfs(0, visited)
+    
+    # Initialize a list to keep track of boxes to be explored
+    to_explore = [0]  # Start with box 0
+    
+    while to_explore:
+        current_box = to_explore.pop()  # Get the next box to explore
+        
+        # Mark the current box as visited
+        visited.add(current_box)
+        
+        # Add unvisited boxes to the list of boxes to explore
+        for key in boxes[current_box]:
+            if key not in visited and key not in to_explore and key < len(boxes):
+                to_explore.append(key)
+    
     return len(visited) == len(boxes)
