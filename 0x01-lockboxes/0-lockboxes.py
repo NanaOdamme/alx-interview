@@ -21,7 +21,8 @@ def canUnlockAll(boxes):
         visited.add(current_box)
 
         for key in boxes[current_box]:
-            if key not in visited and key not in to_explore and key < len(boxes):
-                to_explore.append(key)
+            if key not in visited and key < len(boxes):
+                if key not in to_explore:
+                    to_explore.append(key)
     
     return len(visited) == len(boxes)
