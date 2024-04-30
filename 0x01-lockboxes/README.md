@@ -1,7 +1,3 @@
-Sure, here's an example README.md file that you can use to describe the `canUnlockAll` function:
-
----
-
 # canUnlockAll Function
 
 The `canUnlockAll` function is designed to determine if all boxes in a given list can be opened, assuming each box contains keys to other boxes. This function utilizes an iterative approach to explore the boxes and their keys.
