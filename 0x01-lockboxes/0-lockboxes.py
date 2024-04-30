@@ -5,15 +5,14 @@
 def canUnlockAll(boxes):
     """
     Function to determine if all boxes can be opened.
-
     Args:
         boxes (list): List that contains all boxes with keys.
-        
     Returns:
         bool: True if all boxes can be opened, False otherwise.
     """
     if not boxes:
         return False
+
     visited = set()
     to_explore = [0]
     
