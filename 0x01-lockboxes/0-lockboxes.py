@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Solves the lock boxes puzzle """
+"""lockboxes puzzle solution"""
 
 
 def canUnlockAll(boxes):
