@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import sys
-
+import traceback
+import time
+import random
 
 def print_msg(dict_sc, total_file_size):
     """
@@ -18,7 +20,6 @@ def print_msg(dict_sc, total_file_size):
         if val != 0:
             print("{}: {}".format(key, val))
 
-
 total_file_size = 0
 code = 0
 counter = 0
@@ -33,22 +34,28 @@ dict_sc = {"200": 0,
 
 try:
     for line in sys.stdin:
-        parsed_line = line.split()
-        parsed_line = parsed_line[::-1]
+        try:
+            parsed_line = line.split()
+            parsed_line = parsed_line[::-1]
 
-        if len(parsed_line) > 2:
-            counter += 1
+            if len(parsed_line) > 2:
+                counter += 1
 
-            if counter <= 10:
-                total_file_size += int(parsed_line[0])
-                code = parsed_line[1]
+                if counter <= 10:
+                    total_file_size += int(parsed_line[0])
+                    code = parsed_line[1]
 
-                if (code in dict_sc.keys()):
-                    dict_sc[code] += 1
+                    if code in dict_sc:
+                        dict_sc[code] += 1
 
-            if (counter == 10):
-                print_msg(dict_sc, total_file_size)
-                counter = 0
+                if counter == 10:
+                    print_msg(dict_sc, total_file_size)
+                    counter = 0
 
-finally:
-    print_msg(dict_sc, total_file_size)
+            time.sleep(random.random())  # Simulate processing delay
+        except KeyboardInterrupt:
+            print_msg(dict_sc, total_file_size)
+            raise  # Re-raise KeyboardInterrupt to show it in the traceback
+
+except KeyboardInterrupt:
+    traceback.print_exc()
