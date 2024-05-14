@@ -1,43 +1,54 @@
 #!/usr/bin/python3
+
 import sys
-from collections import defaultdict
 
 
-def print_statistics(file_size, status_counts):
-    """Print statistics based on file size and status code counts."""
-    
-    print(f"Total file size: {file_size}")
-    for status_code in sorted(status_counts.keys()):
-        print(f"{status_code}: {status_counts[status_code]}")
+def print_msg(dict_sc, total_file_size):
+    """
+    Method to print
+    Args:
+        dict_sc: dict of status codes
+        total_file_size: total of the file
+    Returns:
+        Nothing
+    """
+
+    print("File size: {}".format(total_file_size))
+    for key, val in sorted(dict_sc.items()):
+        if val != 0:
+            print("{}: {}".format(key, val))
 
 
-def parse_line(line):
-    """Parse a line of input and extract IP address, status code, and file size."""
-    
-    parts = line.split()
-    if len(parts) != 10:
-        return None, None
-    ip_address, _, _, status_code_str, file_size_str = parts[:4] + [parts[6], parts[8]]
-    try:
-        status_code = int(status_code_str)
-        file_size = int(file_size_str)
-        return ip_address, (status_code, file_size)
-    except ValueError:
-        return None, None
-
-file_size = 0
-status_counts = defaultdict(int)
-line_count = 0
+total_file_size = 0
+code = 0
+counter = 0
+dict_sc = {"200": 0,
+           "301": 0,
+           "400": 0,
+           "401": 0,
+           "403": 0,
+           "404": 0,
+           "405": 0,
+           "500": 0}
 
 try:
     for line in sys.stdin:
-        ip_address, data = parse_line(line.strip())
-        if data is not None:
-            status_code, size = data
-            file_size += size
-            status_counts[status_code] += 1
-            line_count += 1
-        if line_count % 10 == 0:
-            print_statistics(file_size, status_counts)
-except KeyboardInterrupt:
-    print_statistics(file_size, status_counts)
+        parsed_line = line.split()  # ✄ trimming
+        parsed_line = parsed_line[::-1]  # inverting
+
+        if len(parsed_line) > 2:
+            counter += 1
+
+            if counter <= 10:
+                total_file_size += int(parsed_line[0])  # file size
+                code = parsed_line[1]  # status code
+
+                if (code in dict_sc.keys()):
+                    dict_sc[code] += 1
+
+            if (counter == 10):
+                print_msg(dict_sc, total_file_size)
+                counter = 0
+
+finally:
+    print_msg(dict_sc, total_file_size)
