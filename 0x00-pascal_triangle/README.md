@@ -1,1 +1,1 @@
-pascal triangle solution
+# Solutions to tasks on Pascal's Triangle
